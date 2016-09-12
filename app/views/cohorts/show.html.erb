@@ -1,0 +1,24 @@
+<h1><%= @cohort.name %></h1>
+
+<ul>
+<% @students.each do |student| %>
+  <li>
+    <%= student.name %>
+  </li>
+<% end %>
+</ul>
+
+<h2>Batches</h2>
+<ul>
+<% @cohort.batches.each do |batch| %>
+  <li>
+    <%= link_to batch.created_at.to_s, batch_path(batch) %>
+  </li>
+<% end %>
+</ul>
+
+<%= form_tag cohort_batches_path(@cohort), method: 'post' do %>
+  <%= submit_tag "Make a new batch with groups of..." %>
+  <!-- <%= label_tag :n, "People per group:" %> -->
+  <%= select_tag :'batch[size]', options_for_select([['2', 2],['3', 3],['4',4],['5',5]],1) %>
+<% end %>

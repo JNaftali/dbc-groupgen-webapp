@@ -1,0 +1,9 @@
+<h1><%= @batch.created_at %></h1>
+
+<ul>
+<% @groups.each do |group| %>
+  <li>
+    <%= group.students.map(&:name).join(', ') %>
+  </li>
+<% end %>
+</ul>
