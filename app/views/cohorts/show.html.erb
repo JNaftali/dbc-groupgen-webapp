@@ -12,7 +12,7 @@
 <ul>
 <% @cohort.batches.each do |batch| %>
   <li>
-    <%= link_to batch.created_at.to_s, batch_path(batch) %>
+    <%= link_to batch.created_at.to_s, [@cohort, batch] %>
   </li>
 <% end %>
 </ul>

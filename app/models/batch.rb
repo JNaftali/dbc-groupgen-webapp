@@ -12,7 +12,6 @@ class Batch < ApplicationRecord
     @size = a.to_i
   end
 
-  protected
   def students
     self.cohort.students.order(name: :asc)
   end
@@ -28,16 +27,17 @@ class Batch < ApplicationRecord
     return [people] if self.size > people.length
     groups_enum(people).each do |group|
       new_people = people - group
+      return [group] if new_people.length == 0
       other_groups = get_groups(new_people)
       next unless other_groups
-      return [groups] + other_groups
+      return [group] + other_groups
     end
     false
   end
 
   def sort_rank(*group)
     return 0 if group.length == 0
-    return self.history.count {|past_group| past_group.include?(group[0])} if group.length == 1
+    return self.history.count {|past_group| past_group.to_a.include?(group[0])} if group.length == 1
 
     group.sort.combination(2).reduce(0) { |sum, pair| sum + self.history.count {|past_group| past_group & pair == pair} }
   end
@@ -49,7 +49,7 @@ class Batch < ApplicationRecord
       until people.empty?
         next_group = []
         until next_group.length == self.size || people.empty?
-          people = people.sort {|a,b| self.sort_rank(*next_group, a) <=> self.sort_rank(*next_group, b)}
+          people = people.sort {|a,b| self.sort_rank(*next_group, b) <=> self.sort_rank(*next_group, a)}
           next_group << people.find {|person| !next_group.include?(person)}
         end
         history << next_group

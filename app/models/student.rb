@@ -4,4 +4,8 @@ class Student < ApplicationRecord
   has_many :groups, through: :group_students
 
   validates :name, presence: true, uniqueness: {scope: :cohort}
+
+  def ==(other)
+    self.id == other.id
+  end
 end

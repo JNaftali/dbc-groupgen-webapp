@@ -15,8 +15,8 @@ class BatchesController < ApplicationController
 
   def create
     @cohort = Cohort.find(params[:cohort_id])
-    @cohort.batches.create(batch_params)
-    redirect_to @cohort
+    batch = @cohort.batches.create(batch_params)
+    redirect_to [@cohort, batch]
   end
 
   def update

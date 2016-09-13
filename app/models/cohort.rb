@@ -6,7 +6,7 @@ class Cohort < ApplicationRecord
 
   def history
     self.groups.map do |group|
-      group.students.select(:name)
+      group.students
     end
   end
 end

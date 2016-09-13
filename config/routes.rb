@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/logout' => 'pages#logout'
   resources :users
   resources :cohorts do
-    resources :batches, only: [:create]
+    resources :batches, only: [:create, :show]
+    resources :students, only: [:create]
   end
-  resources :batches, only: [:show, :edit, :update, :destroy]
 end
